@@ -1,0 +1,34 @@
+{
+    "money": {
+        "total": 2000,
+        "available": 300,
+        "used": 1600,
+        "pending": 100
+    }
+,
+    "friends": [{
+        "id": "asdf1",
+        "firstName": "John",
+        "lastName": "Lundeen",
+        "username": "john.lundeen",
+        "email": "john.lundeen@email.com"
+    }, {
+        "id": "asdf12",
+        "firstName": "Braxton",
+        "lastName": "Kinner",
+        "username": "braxton.kinner",
+        "email": "braxton.kinner@email.com"
+    }, {
+        "id": "asdf3",
+        "firstName": "Alex",
+        "lastName": "Peterson",
+        "username": "alex.peterson",
+        "email": "alex.peterson@email.com"
+    }, {
+        "id": "asdf4",
+        "firstName": "Troy",
+        "lastName": "Sawtell",
+        "username": "troy.sawtell",
+        "email": "troy.sawtell@email.com"
+    }]
+}

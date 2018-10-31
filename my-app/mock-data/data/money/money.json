@@ -1,0 +1,8 @@
+{
+    "money": {
+        "total": 2000,
+        "available": 300,
+        "used": 1600,
+        "pending": 100
+    }
+}
