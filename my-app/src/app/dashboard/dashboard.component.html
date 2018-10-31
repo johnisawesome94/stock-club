@@ -1,5 +1,49 @@
-<p>Total Money: {{ totalMoney }} </p>
-<p>Total Money Available for Trading: {{ availableMoney }}</p>
-<p>Total Money Pending: {{ pendingMoney }}</p>
-<p>Total Money Used: {{ usedMoney }}</p>
-<p>Number of people in the stock club: {{ friends.length }}</p>
+<div class="card margin-bottom-15">
+    <div class="card-body">
+        <div class="card-title medium-text-bold margin-bottom-15">
+            Stock Club Funds
+        </div>
+        <div class="small-text-bold display-flex-row">
+            Total Money:&nbsp;
+            <div class="small-text">
+                {{ totalMoney }}
+            </div>
+        </div>
+        <div class="small-text-bold display-flex-row">
+            Total Money Available for Trading:&nbsp;
+            <div class="small-text">
+                {{ availableMoney }}
+            </div>
+        </div>
+        <div class="small-text-bold display-flex-row">
+            Total Money Pending:&nbsp;
+            <div class="small-text">
+                {{ pendingMoney }}
+            </div>
+        </div>
+        <div class="small-text-bold display-flex-row">
+            Total Money Used:&nbsp;
+            <div class="small-text">
+                {{ usedMoney }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-title medium-text-bold margin-bottom-15">
+            Stock Club Members
+        </div>
+        <ul *ngFor="let friend of friends" class="list-group">
+            <li class=list-group-item>
+                <div class="small-text">
+                {{ friend.firstName }} {{ friend.lastName }}
+                </div>
+                <div class="tiny-text sub-text">
+                    {{ friend.username}}
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

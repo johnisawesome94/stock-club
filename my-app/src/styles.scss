@@ -1,3 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
+@import "styles/_variables.scss";
+
+.tiny-text {
+    font: 10px $font-family;
+}
+
+.small-text {
+    font: 14px $font-family; 
+}
+
+.medium-text {
+    font: 18px $font-family;
+}
+
+.large-text {
+    font: 22px $font-family;
+}
+
+.tiny-text-bold {
+    font: bold 10px $font-family;
+}
+
+.small-text-bold {
+    font: bold 14px $font-family; 
+}
+
+.medium-text-bold {
+    font: bold 18px $font-family;
+}
+
+.large-text-bold {
+    font: bold 22px $font-family;
+}
+
+.sub-text {
+    color: $gray;
+}
+
+.margin-bottom-15 {
+    margin-bottom: 15px;
+}
+
+.display-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.display-flex-row {
+    display: flex;
+    flex-direction: row;
+}
