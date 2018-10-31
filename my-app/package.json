@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "mock:server": "npm run concat:mocks && json-server --watch mock-data/data.json",
+    "mock:server": "npm run concat:mocks && json-server --middlewares mock-data/middlewares.js --watch mock-data/data.json",
     "concat:mocks": "node \"./mock-data/concat-json.js\"",
     "start:proxy": "ng serve --proxy-config mock-data/proxy.config.json",
     "start:mock": "concurrently --kill-others \"npm run mock:server\" \"npm run start:proxy\""

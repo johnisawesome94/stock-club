@@ -7,12 +7,18 @@
 .app-top-bar {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     height: 50px;
     width: 100%;
     padding: 0 15px;
     background-color: $light-gray;
+
+    .app-top-bar-logo {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
 
     .app-top-bar-item {
         color: $black;
