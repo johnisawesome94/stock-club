@@ -11,13 +11,28 @@
     align-items: center;
     height: 50px;
     width: 100%;
-    padding: 0 15px;
     background-color: $light-gray;
 
-    .app-top-bar-logo {
+    .app-top-bar-left {
         display: flex;
         flex-direction: row;
         align-items: center;
+        height: 100%;
+
+        .app-top-bar-logo-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background-color: $primary-color;
+            margin-right: 15px;
+
+            .app-top-bar-logo {
+                color: $white;
+                padding: 0 15px;
+            }
+        }
     }
 
     .app-top-bar-item {
