@@ -29,7 +29,7 @@ Important Links:
 TODO:
 - need a way to add/delete friends
 - need a way to enter stocks bought
-- need a way to enter need way to enter money per user
+- need a way to enter money per user
 - need a way to take out available money per user
 - need a way to vote on which stocks to buy
 - need a way to log in

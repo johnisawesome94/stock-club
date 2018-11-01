@@ -1,5 +1,5 @@
 export const RestConstants = Object.freeze({
-    FRIENDS_URL: '/friends',
-    MONEY_URL: '/money',
+    MEMBERS_URL: '/members',
+    FUNDS_URL: '/funds',
     LOGIN_URL: '/auth'
 })

@@ -43,6 +43,10 @@
     margin-bottom: 15px;
 }
 
+.margin-top-15 {
+    margin-top: 15px;
+}
+
 .display-flex-column {
     display: flex;
     flex-direction: column;
@@ -51,4 +55,18 @@
 .display-flex-row {
     display: flex;
     flex-direction: row;
+}
+
+.card-primary-button {
+    background-color: $secondary-color;
+    float: right;
+    color: $white;
+    margin-left: 15px;
+}
+
+.card-secondary-button {
+    background-color: $light-secondary-color;
+    float: right;
+    color: $white;
+    margin-left: 15px;
 }

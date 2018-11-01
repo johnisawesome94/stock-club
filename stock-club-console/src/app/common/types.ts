@@ -1,4 +1,4 @@
-export interface Friend {
+export interface Member {
     id: string,
     firstName: string,
     lastName: string,
@@ -6,7 +6,7 @@ export interface Friend {
     email: string
 } 
 
-export interface Money {
+export interface Funds {
     total: number,
     available: number,
     used: number,

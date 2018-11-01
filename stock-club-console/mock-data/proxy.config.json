@@ -1,5 +1,5 @@
 {
     "/auth": { "target": "http://localhost:3000", "secure": false },
-    "/friends": { "target": "http://localhost:3000", "secure": false },
-    "/money": { "target": "http://localhost:3000", "secure": false }
+    "/members": { "target": "http://localhost:3000", "secure": false },
+    "/funds": { "target": "http://localhost:3000", "secure": false }
 }
