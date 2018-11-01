@@ -1,10 +1,18 @@
-export interface Member {
-    id: string,
-    firstName: string,
-    lastName: string,
-    username: string,
-    email: string
-} 
+export class Member {
+    constructor(
+        public id: string,
+        public firstName: string,
+        public lastName: string,
+        public username: string,
+        public email: string) {}
+}
+
+export class NewMember {
+    constructor(
+        public firstName: string,
+        public lastName: string,
+        public email: string) {}
+}
 
 export interface Funds {
     total: number,

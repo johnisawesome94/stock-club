@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Member } from '../common/types';
+import { Member, NewMember } from '../common/types';
 import { RestConstants } from '../common/constants/rest';
 import { HttpClient } from '@angular/common/http';
 
@@ -13,5 +13,9 @@ export class MembersService {
 
   public getMembers(): Observable<Member[]> {
     return this.httpClient.get<Member[]>(RestConstants.MEMBERS_URL);
+  }
+
+  public addMember(newMember: NewMember): Observable<Member> {
+    return this.httpClient.post<Member>(RestConstants.MEMBERS_URL, newMember);
   }
 }

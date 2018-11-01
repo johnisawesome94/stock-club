@@ -35,6 +35,7 @@ TODO:
 - need a way to log in
 - need a way to logout
 - need a way to create a stock club (initial setup)
+- need a way to show alerts
 
 
 - Initial screen: 
