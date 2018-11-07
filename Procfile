@@ -1,1 +1,1 @@
-web: python stock-club-api/api.py
+web: python server.py
