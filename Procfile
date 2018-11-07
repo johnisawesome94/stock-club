@@ -1,1 +1,1 @@
-web: python server.py
+web: gunicorn stock-club-api.api:app
