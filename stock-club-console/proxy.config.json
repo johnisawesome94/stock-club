@@ -2,6 +2,7 @@
     "/api/*": {
       "target": "http://stock-club.herokuapp.com",
       "secure": false,
-      "pathRewrite": {"^/api" : ""}
+      "pathRewrite": {"^/api" : ""},
+      "changeOrigin": true
     }
   }
