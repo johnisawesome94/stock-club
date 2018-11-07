@@ -6,7 +6,7 @@ from bson.json_util import dumps
 
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/stock_club_db"
+app.config["MONGO_URI"] = "mongodb://stock-club:stock-club-1>@ds155213.mlab.com:55213/heroku_n7zk6r5p"
 mongo = PyMongo(app)
 api = Api(app)
 
