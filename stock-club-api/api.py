@@ -58,8 +58,7 @@ parser.add_argument('task')
 @app.route('/members', methods=['GET', 'POST'])
 def members():
     if request.method == 'GET':
-        return 'got here'
-        #dumps(mongo.db.members.find()) or 'no members'
+        return dumps(mongo.db.members.find())
     elif request.method == 'POST':
          mongo.db.members.insert(request.json)
          return 'member added'
