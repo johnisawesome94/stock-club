@@ -1,7 +1,13 @@
 from flask import Flask
+from flask import request
 from flask_restful import reqparse, abort, Api, Resource
+from flask_pymongo import PyMongo
+from bson.json_util import dumps
+
 
 app = Flask(__name__)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/stock_club_db"
+mongo = PyMongo(app)
 api = Api(app)
 
 FUNDS = {
@@ -49,6 +55,16 @@ parser = reqparse.RequestParser()
 parser.add_argument('task')
 
 
+@app.route('/members', methods=['GET', 'POST'])
+def members():
+    if request.method == 'GET':
+        return dumps(mongo.db.members.find()) or 'no members'
+    elif request.method == 'POST':
+         mongo.db.members.insert(request.json)
+         return 'member added'
+    else:
+        return 'error'
+
 # Funds
 # handles the funds of a stock club
 class Funds(Resource):
@@ -56,11 +72,15 @@ class Funds(Resource):
         return FUNDS
 
 
-# Members
-# shows a list of all todos, and lets you POST to add new tasks
-class Members(Resource):
-    def get(self):
-        return MEMBERS
+# # Members
+# # shows a list of all todos, and lets you POST to add new tasks
+# class Members(Resource):
+#     def get(self):
+#         return mongo.db.members.find()
+
+#     def post(self, newMember):
+#         mongo.db.members.insert(newMember)
+#         return 'member added'
 
 # Login
 # shows a list of all todos, and lets you POST to add new tasks
@@ -71,7 +91,7 @@ class Login(Resource):
 ##
 ## Actually setup the Api resource routing here
 ##
-api.add_resource(Members, '/members')
+# api.add_resource(Members, '/members')
 api.add_resource(Funds, '/funds')
 api.add_resource(Login, '/login')
 
