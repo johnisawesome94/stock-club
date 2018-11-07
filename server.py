@@ -8,8 +8,7 @@ const app = express();
 app.use(express.static(__dirname + '/stock-club-console/dist/stock-club'));
 
 app.get('/*', function(req,res) {
-    
-res.sendFile(path.join(__dirname+'/stock-club-console/dist/stock-club/index.html'));
+    res.sendFile(path.join(__dirname+'/stock-club-console/dist/stock-club/index.html'));
 });
 
 // Start the app by listening on the default Heroku port
