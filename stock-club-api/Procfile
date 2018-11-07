@@ -1,1 +1,1 @@
-web: gunicorn stock-club-api:app
+web: gunicorn stock-club-api.stock-club-api.api
