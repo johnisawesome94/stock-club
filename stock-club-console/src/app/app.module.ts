@@ -12,6 +12,7 @@ import { ErrorInterceptor } from './authentication/interceptors/error.intercepto
 import { FundsCardComponent } from './dashboard/funds-card/funds-card.component';
 import { MembersCardComponent } from './dashboard/members-card/members-card.component';
 import { AddMemberModalComponent } from './dashboard/members-card/add-member-modal/add-member-modal.component';
+import { AddFundsModalComponent } from './dashboard/funds-card/add-funds-modal/add-funds-modal.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AddMemberModalComponent } from './dashboard/members-card/add-member-mod
     LoginComponent,
     AddMemberModalComponent,
     FundsCardComponent,
-    MembersCardComponent
+    MembersCardComponent,
+    AddFundsModalComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,8 @@ import { AddMemberModalComponent } from './dashboard/members-card/add-member-mod
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   entryComponents: [
-    AddMemberModalComponent
+    AddMemberModalComponent,
+    AddFundsModalComponent
   ],
   bootstrap: [AppComponent]
 })
