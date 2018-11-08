@@ -14,4 +14,9 @@ export class FundsService {
   public getFunds(): Observable<Funds> {
     return this.httpClient.get<Funds>(RestConstants.FUNDS_URL);
   }
+
+  public postFunds(contribution: string): Observable<any> {
+    return this.httpClient.post<string>(RestConstants.FUNDS_URL, contribution);
+  }
+
 }

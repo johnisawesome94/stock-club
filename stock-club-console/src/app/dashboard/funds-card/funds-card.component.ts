@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Funds } from 'src/app/common/types';
 import { FundsService } from 'src/app/services/funds.service';
+import { AddFundsModalComponent } from './add-funds-modal/add-funds-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'funds-card',
@@ -14,7 +16,7 @@ export class FundsCardComponent implements OnInit {
   public pendingMoney: number;
   public usedMoney: number;
 
-  constructor(private fundsService: FundsService) { }
+  constructor(private fundsService: FundsService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.fundsService.getFunds().subscribe((fundData: Funds) => {
@@ -23,6 +25,11 @@ export class FundsCardComponent implements OnInit {
       this.pendingMoney = fundData.pending;
       this.usedMoney = fundData.used;
     });   
+  }
+
+  public openAddFundsModal(): void {
+    console.log("button clicked");
+    const modalRef = this.modalService.open(AddFundsModalComponent)
   }
 
 }
