@@ -15,7 +15,11 @@ export class MembersService {
     return this.httpClient.get<Member[]>(RestConstants.MEMBERS_URL);
   }
 
-  public addMember(newMember: NewMember): Observable<Member> {
+  public postMember(newMember: NewMember): Observable<Member> {
     return this.httpClient.post<Member>(RestConstants.MEMBERS_URL, newMember);
+  }
+
+  public deleteMember(memberId: string): Observable<any> {
+    return this.httpClient.delete(`${RestConstants.MEMBERS_URL}/${memberId}`, { responseType: 'text' });
   }
 }

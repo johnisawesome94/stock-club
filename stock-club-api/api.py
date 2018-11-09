@@ -3,6 +3,7 @@ from flask import request
 from flask_restful import reqparse, abort, Api, Resource
 from flask_pymongo import PyMongo
 from bson.json_util import dumps
+import uuid
 
 
 app = Flask(__name__)
@@ -10,38 +11,16 @@ app.config["MONGO_URI"] = "mongodb://stock-club:stock-club1@ds155213.mlab.com:55
 mongo = PyMongo(app)
 api = Api(app)
 
+def generate_response(resp):
+    return '{"message": "' + resp + '"}'
+
+
 FUNDS = {
      "total": 2000,
     "available": 300,
     "used": 1600,
     "pending": 100
 }
-
-MEMBERS = [{
-        "id": "asdf1",
-        "firstName": "John",
-        "lastName": "Lundeen",
-        "username": "john.lundeen",
-        "email": "john.lundeen@email.com"
-    }, {
-        "id": "asdf12",
-        "firstName": "Braxton",
-        "lastName": "Kinner",
-        "username": "braxton.fart",
-        "email": "braxton.fart@email.com"
-    }, {
-        "id": "asdf3",
-        "firstName": "Alex",
-        "lastName": "Peterson",
-        "username": "alex.peterson",
-        "email": "alex.peterson@email.com"
-    }, {
-        "id": "asdf4",
-        "firstName": "Troy",
-        "lastName": "Sawtell",
-        "username": "troy.sawtell",
-        "email": "troy.sawtell@email.com"
-}]
 
 LOGIN = {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFzZGYiLCJ1c2VybmFtZSI6ImJ1dHQuc25pZmZlciIsImxhc3ROYW1lIjoic25pZmZlciIsImZpcnN0TmFtZSI6ImJ1dHQiLCJlbWFpbCI6ImJ1dHQuc25pZmZlckBlbWFpbC5jb20iLCJ0b2tlbiI6ImFzZGZhc2RmYXNkZiIsInN1YiI6IjEyMzQ1Njc4OTAiLCJpYXQiOjE1MTYyMzkwMjJ9.lLZ4Eg9RaIL6EkwU4Ct9JQTp9efLFfl7NMo_vD_Wg3c"
@@ -55,15 +34,29 @@ parser = reqparse.RequestParser()
 parser.add_argument('task')
 
 
-@app.route('/members', methods=['GET', 'POST'])
-def members():
-    if request.method == 'GET':
-        return dumps(mongo.db.members.find())
-    elif request.method == 'POST':
-         mongo.db.members.insert(request.json)
-         return 'member added'
-    else:
-        return 'error'
+@app.route('/members', methods=['GET'])
+def getMembers():
+    return dumps(mongo.db.members.find())
+
+
+@app.route('/members', methods=['POST'])
+def postMembers():
+    id = str(uuid.uuid4())
+    data = request.json
+    data['id'] = id
+    mongo.db.members.insert_one(data)
+    resp = 'added member: ' + str(data)
+    print(resp)
+    return generate_response(resp)
+
+@app.route('/members/<string:member_id>', methods=['DELETE'])
+def deleteMember(member_id):
+    mongo.db.members.delete_one({ "id": member_id })
+    resp = 'deleted member with id: ' + member_id
+    print(resp)
+    return generate_response(resp)
+
+
 
 # Funds
 # handles the funds of a stock club

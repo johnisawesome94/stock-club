@@ -4,7 +4,7 @@
             Stock Club Members
         </div>
         <ul class="list-group">
-            <li *ngFor="let member of members" class=list-group-item>
+            <li *ngFor="let member of members" class=list-group-item (click)="selectedMemberId = member.id" [ngClass]="{'active': selectedMemberId === member.id}">
                 <div class="small-text">
                 {{ member.firstName }} {{ member.lastName }}
                 </div>
@@ -13,6 +13,7 @@
                 </div>
             </li>
         </ul>
+        <button type="button" class="btn secondary-button margin-top-15" (click)="deleteMember()" [disabled]="!selectedMemberId">Delete Member</button>
         <button type="button" class="btn primary-button margin-top-15" (click)="openAddMemberModal()">Add Member</button>
     </div>
 </div>

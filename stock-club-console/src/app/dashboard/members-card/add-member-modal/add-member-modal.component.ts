@@ -17,10 +17,12 @@ export class AddMemberModalComponent implements OnInit {
   ngOnInit() {}
 
   public addMember(): void {
-    this.membersService.addMember(this.newMember).subscribe(() => {
+    this.membersService.postMember(this.newMember).subscribe(() => {
       // TODO: handle adding member success case
+      console.log('successfully added member ' + JSON.stringify(this.newMember));
     }, () => {
       // TODO: handle adding member error case
+      console.log('failed to add member ' + JSON.stringify(this.newMember));
     })
   }
 }
