@@ -23,6 +23,8 @@ export class AddMemberModalComponent implements OnInit {
     }, () => {
       // TODO: handle adding member error case
       console.log('failed to add member ' + JSON.stringify(this.newMember));
+    }, () => {
+      this.activeModal.close('add')
     })
   }
 }

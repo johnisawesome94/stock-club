@@ -1,0 +1,6 @@
+- add funds log that shows when a fund was added or removed and by who
+- add login functionality
+- add whoami functionality
+- add funds functionality
+- need a way to add funds to a specific stock club
+- need way to tie user to specific stock club

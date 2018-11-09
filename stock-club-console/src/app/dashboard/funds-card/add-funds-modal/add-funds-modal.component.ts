@@ -23,6 +23,8 @@ export class AddFundsModalComponent implements OnInit {
     }, () => {
       // TODO: handle adding funds error case
       console.log('Funds not added successully');
+    }, () => {
+      this.activeModal.close('add')
     });
   }
 }

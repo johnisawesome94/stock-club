@@ -34,6 +34,9 @@ parser = reqparse.RequestParser()
 parser.add_argument('task')
 
 
+###################
+## MEMBERS API'S ##
+###################
 @app.route('/members', methods=['GET'])
 def getMembers():
     return dumps(mongo.db.members.find())
@@ -45,6 +48,8 @@ def postMembers():
     data = request.json
     data['id'] = id
     mongo.db.members.insert_one(data)
+    # create initial funds for user
+    mongo.db.funds.insert_one({'userId': id, 'available': 0, 'used': 0, 'pending': 0})
     resp = 'added member: ' + str(data)
     print(resp)
     return generate_response(resp)
@@ -57,23 +62,37 @@ def deleteMember(member_id):
     return generate_response(resp)
 
 
+#################
+## FUNDS API'S ##
+#################
+@app.route('/funds', methods=['GET'])
+def getFunds():
+    funds = mongo.db.funds.find()
+    available = 0
+    used = 0
+    pending = 0
+    for fund in funds:
+        available += fund['available']
+        used += fund['used']
+        pending += fund['pending']
+    total = available + used + pending
+    return '{"available": ' + str(available) + ', "used": ' + str(used) + ', "pending": ' + str(pending) + ', "total": ' + str(total) + '}'
 
-# Funds
-# handles the funds of a stock club
-class Funds(Resource):
-    def get(self):
-        return FUNDS
+# @app.route('/funds/<string:user_id>', methods=['GET'])
+# def getFunds(user_id):
+#    return dumps(mongo.db.funds.find({ "userId": user_id }))
 
+@app.route('/funds', methods=['POST'])
+def postFunds():
+    data = request.json
+    newAmount = data['amount']
+    fund = mongo.db.funds.find_one( { "userId": data["userId"] })
+    previousAmount = fund['available']
+    mongo.db.funds.update_one({ 'userId': data['userId'] }, { '$set': { 'available': int(previousAmount) + int(newAmount) } })
+    resp = 'Added $' + str(newAmount) + ' to funds. Total is now $' + str(int(previousAmount) + int(newAmount))
+    print(resp)
+    return generate_response(resp)
 
-# # Members
-# # shows a list of all todos, and lets you POST to add new tasks
-# class Members(Resource):
-#     def get(self):
-#         return mongo.db.members.find()
-
-#     def post(self, newMember):
-#         mongo.db.members.insert(newMember)
-#         return 'member added'
 
 # Login
 # shows a list of all todos, and lets you POST to add new tasks
@@ -84,8 +103,6 @@ class Login(Resource):
 ##
 ## Actually setup the Api resource routing here
 ##
-# api.add_resource(Members, '/members')
-api.add_resource(Funds, '/funds')
 api.add_resource(Login, '/login')
 
 

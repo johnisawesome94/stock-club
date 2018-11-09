@@ -1,7 +1,7 @@
 
 <div class="modal-header">
   <div class="modal-title large-text">Add Funds</div>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('close')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -37,6 +37,6 @@
     </div> -->
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn primary-button" (click)="addFunds(); activeModal.close('Close click')">Add</button>
-  <button type="button" class="btn secondary-button" (click)="activeModal.close('Close click')">Cancel</button>
+  <button type="button" class="btn primary-button" (click)="addFunds()">Add</button>
+  <button type="button" class="btn secondary-button" (click)="activeModal.close('close')">Cancel</button>
 </div>
