@@ -1,0 +1,16 @@
+<div class="init-page-wrapper">
+  <div class="card init-page-content">
+    <div class="card-body">
+      <ul class="nav nav-tabs margin-bottom-15">
+        <li class="nav-item curser-pointer">
+          <div class="nav-link medium-text-bold" (click)="showPage = 'login'" [ngClass]="{'tab-active': showPage ===  'login'}">Login</div>
+        </li>
+        <li class="nav-item curser-pointer">
+          <div class="nav-link medium-text-bold" (click)="showPage = 'register'" [ngClass]="{'tab-active': showPage === 'register'}">Register</div>
+        </li>
+      </ul>
+      <app-login *ngIf="showPage === 'login'"></app-login>
+      <app-register *ngIf="showPage === 'register'" (registered)="showPage = 'login'"></app-register>
+    </div>
+  </div>
+</div>

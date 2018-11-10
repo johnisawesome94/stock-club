@@ -72,3 +72,12 @@
     margin-left: 15px;
     min-width: 90px;
 }
+
+.curser-pointer {
+    cursor: pointer;
+}
+
+.tab-active {
+    color: #ffffff !important;
+    background-color: $primary-color;
+}

@@ -3,10 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { User } from '../common/types';
+import { User, RegisterUser } from '../common/types';
 import { Router } from '@angular/router';
 import { RestConstants } from '../common/constants/rest';
-import { JsonpCallbackContext } from '@angular/common/http/src/jsonp';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -22,20 +21,15 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    public login(username: string, password: string): Observable<any> {
-        return this.http.post<any>(RestConstants.LOGIN_URL, { username, password })
+    public login(email: string, password: string): Observable<any> {
+        return this.http.post<any>(RestConstants.LOGIN_URL, { email: email, password: password })
             .pipe(map(user => {
-                console.log('got here: general');
-                console.log('user: ' + JSON.stringify(user));
-
                 // login successful if there's a jwt token in the response
-                if (user && user.token) {
-                    console.log('got here: successful');
+                if (user && user.auth_token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);
                 }
-
                 return user;
             }));
     }
@@ -45,5 +39,9 @@ export class AuthenticationService {
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
         this.router.navigate(['/login']);
+    }
+
+    public registerUser(newUser: RegisterUser): Observable<any> {
+        return this.http.post<any>(RestConstants.REGISTER_URL, newUser);
     }
 }

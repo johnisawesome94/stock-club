@@ -1,0 +1,14 @@
+.init-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.init-page-content {
+  height: 50%;
+  width: 50%;
+  min-height: 490px;
+}

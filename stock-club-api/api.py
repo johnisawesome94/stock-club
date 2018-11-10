@@ -1,37 +1,58 @@
 from flask import Flask
-from flask import request
+from flask import request, make_response, jsonify
 from flask_restful import reqparse, abort, Api, Resource
 from flask_pymongo import PyMongo
 from bson.json_util import dumps
-import uuid
-
+from uuid import uuid4
+import jwt
+import datetime
+import bcrypt
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://stock-club:stock-club1@ds155213.mlab.com:55213/heroku_n7zk6r5p"
+app.config["SECRET_KEY"] = "J\x049E3\xc9r\xac \xccwR\xc8&\xaa\x02+\xb3\xd1\xb2}\xfe3\x95"
 mongo = PyMongo(app)
 api = Api(app)
 
+
+####################
+## Util Functions ##
+####################
 def generate_response(resp):
     return '{"message": "' + resp + '"}'
 
+def encode_auth_token(user_id):
+    """
+    Generates the Auth Token
+    :return: string
+    """
+    try:
+        payload = {
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),
+            'iat': datetime.datetime.utcnow(),
+            'sub': user_id
+        }
+        return jwt.encode(
+            payload,
+            app.config.get('SECRET_KEY'),
+            algorithm='HS256'
+        )
+    except Exception as e:
+        return e
 
-FUNDS = {
-     "total": 2000,
-    "available": 300,
-    "used": 1600,
-    "pending": 100
-}
-
-LOGIN = {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFzZGYiLCJ1c2VybmFtZSI6ImJ1dHQuc25pZmZlciIsImxhc3ROYW1lIjoic25pZmZlciIsImZpcnN0TmFtZSI6ImJ1dHQiLCJlbWFpbCI6ImJ1dHQuc25pZmZlckBlbWFpbC5jb20iLCJ0b2tlbiI6ImFzZGZhc2RmYXNkZiIsInN1YiI6IjEyMzQ1Njc4OTAiLCJpYXQiOjE1MTYyMzkwMjJ9.lLZ4Eg9RaIL6EkwU4Ct9JQTp9efLFfl7NMo_vD_Wg3c"
-}
-
-def abort_if_todo_doesnt_exist(todo_id):
-    if todo_id not in TODOS:
-        abort(404, message="Todo {} doesn't exist".format(todo_id))
-
-parser = reqparse.RequestParser()
-parser.add_argument('task')
+def decode_auth_token(auth_token):
+    """
+    Decodes the auth token
+    :param auth_token:
+    :return: integer|string
+    """
+    try:
+        payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'))
+        return payload['sub']
+    except jwt.ExpiredSignatureError:
+        return 'Signature expired. Please log in again.'
+    except jwt.InvalidTokenError:
+        return 'Invalid token. Please log in again.'
 
 
 ###################
@@ -39,20 +60,13 @@ parser.add_argument('task')
 ###################
 @app.route('/members', methods=['GET'])
 def getMembers():
-    return dumps(mongo.db.members.find())
-
-
-@app.route('/members', methods=['POST'])
-def postMembers():
-    id = str(uuid.uuid4())
-    data = request.json
-    data['id'] = id
-    mongo.db.members.insert_one(data)
-    # create initial funds for user
-    mongo.db.funds.insert_one({'userId': id, 'available': 0, 'used': 0, 'pending': 0})
-    resp = 'added member: ' + str(data)
-    print(resp)
-    return generate_response(resp)
+    members = mongo.db.members.find()
+    memberList = []
+    for member in members:
+        member.pop('password')
+        member.pop('_id')
+        memberList.append(member)
+    return jsonify(memberList)
 
 @app.route('/members/<string:member_id>', methods=['DELETE'])
 def deleteMember(member_id):
@@ -94,17 +108,84 @@ def postFunds():
     return generate_response(resp)
 
 
-# Login
-# shows a list of all todos, and lets you POST to add new tasks
-class Login(Resource):
-    def post(self):
-        return LOGIN
+#################
+## LOGIN API'S ##
+#################
+@app.route('/login', methods=['POST'])
+def postLogin():
+    try:
+        data = request.json
+        user = mongo.db.members.find_one( { "email": data['email'] })
+        if user and bcrypt.checkpw(data['password'].encode('utf8'), user['password']):
+            auth_token = encode_auth_token(user['id'])
+            if auth_token:
+                responseObject = {
+                    'status': 'success',
+                    'message': 'Successfully logged in.',
+                    'auth_token': auth_token.decode()
+                }
+                return make_response(jsonify(responseObject)), 200
+            else:
+                responseObject = {
+                    'status': 'fail',
+                    'message': 'User does not exist.'
+                }
+                return make_response(jsonify(responseObject)), 404
+        else:
+            responseObject = {
+                'status': 'fail',
+                'message': 'User does not exist.'
+            }
+            return make_response(jsonify(responseObject)), 404
+    except Exception as e:
+        print(e)
+        responseObject = {
+            'status': 'fail',
+            'message': 'Try again'
+        }
+        return make_response(jsonify(responseObject)), 500
 
-##
-## Actually setup the Api resource routing here
-##
-api.add_resource(Login, '/login')
 
+####################
+## REGISTER API'S ##
+####################
+@app.route('/register', methods=['POST'])
+def postRegister():
+    try:
+        data = request.json
+        user = mongo.db.members.find_one( { "email": data['email'] })
+        if not user:
+            try:
+                id = str(uuid4())
+                data['id'] = id
+                data['password'] = bcrypt.hashpw(data['password'].encode('utf8'), bcrypt.gensalt())
+                print('data: ' + str(data))
+                mongo.db.members.insert_one(data)
+                responseObject = {
+                    'status': 'success',
+                    'message': 'Successfully registered.',
+                }
+                return make_response(jsonify(responseObject)), 201
+            except Exception as e:
+                print(e)
+                responseObject = {
+                    'status': 'fail',
+                    'message': 'Some error occurred. Please try again.'
+                }
+                return make_response(jsonify(responseObject)), 500
+        else:
+            responseObject = {
+                'status': 'fail',
+                'message': 'User already exists. Please Log in.',
+            }
+            return make_response(jsonify(responseObject)), 202
+    except Exception as e:
+        print(e)
+        responseObject = {
+            'status': 'fail',
+            'message': 'Try again'
+        }
+        return make_response(jsonify(responseObject)), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

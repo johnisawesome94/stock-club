@@ -14,6 +14,14 @@ export class NewMember {
         public email: string) {}
 }
 
+export class RegisterUser {
+    constructor(
+        public firstName: string,
+        public lastName: string,
+        public email: string,
+        public password: string) {}
+}
+
 export interface Funds {
     total: number,
     available: number,

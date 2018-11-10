@@ -4,3 +4,5 @@
 - add funds functionality
 - need a way to add funds to a specific stock club
 - need way to tie user to specific stock club
+- create logout api and blacklist jwts https://realpython.com/token-based-authentication-with-flask/
+  - set expiry time
