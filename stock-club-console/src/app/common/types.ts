@@ -22,11 +22,12 @@ export class RegisterUser {
         public password: string) {}
 }
 
-export interface Funds {
-    total: number,
-    available: number,
-    used: number,
-    pending: number
+export class Funds {
+    constructor(
+        public total: number,
+        public available: number,
+        public used: number,
+        public pending: number) {}
 }
 
 export class User {
@@ -36,4 +37,5 @@ export class User {
     firstName: string;
     lastName: string;
     token: string;
+    sub: string;
 }

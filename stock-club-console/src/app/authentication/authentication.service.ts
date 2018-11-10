@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { User, RegisterUser } from '../common/types';
 import { Router } from '@angular/router';
 import { RestConstants } from '../common/constants/rest';
+import * as jwt_decode from "jwt-decode";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -19,6 +20,10 @@ export class AuthenticationService {
 
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
+    }
+
+    public getLoggedInUsersId(): any {
+        return jwt_decode(localStorage.getItem('currentUser')).sub;
     }
 
     public login(email: string, password: string): Observable<any> {

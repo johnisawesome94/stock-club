@@ -6,25 +6,52 @@
         <div class="small-text-bold display-flex-row">
             Total Money:&nbsp;
             <div class="small-text">
-                {{ totalMoney }}
+                {{ stockClubFunds.total }}
             </div>
         </div>
         <div class="small-text-bold display-flex-row">
             Total Money Available for Trading:&nbsp;
             <div class="small-text">
-                {{ availableMoney }}
+                {{ stockClubFunds.available }}
             </div>
         </div>
         <div class="small-text-bold display-flex-row">
             Total Money Pending:&nbsp;
             <div class="small-text">
-                {{ pendingMoney }}
+                {{ stockClubFunds.pending }}
             </div>
         </div>
         <div class="small-text-bold display-flex-row">
             Total Money Used:&nbsp;
             <div class="small-text">
-                {{ usedMoney }}
+                {{ stockClubFunds.used }}
+            </div>
+        </div>
+        <div class="card-title medium-text-bold margin-bottom-15 margin-top-15">
+            Personal Funds
+        </div>
+        <div class="small-text-bold display-flex-row">
+            Total Money:&nbsp;
+            <div class="small-text">
+                {{ personalFunds.total }}
+            </div>
+        </div>
+        <div class="small-text-bold display-flex-row">
+            Total Money Available for Trading:&nbsp;
+            <div class="small-text">
+                {{ personalFunds.available }}
+            </div>
+        </div>
+        <div class="small-text-bold display-flex-row">
+            Total Money Pending:&nbsp;
+            <div class="small-text">
+                {{ personalFunds.pending }}
+            </div>
+        </div>
+        <div class="small-text-bold display-flex-row">
+            Total Money Used:&nbsp;
+            <div class="small-text">
+                {{ personalFunds.used }}
             </div>
         </div>
         <button type="button" class="btn primary-button margin-top-15" (click)="openAddFundsModal()">Add Funds</button>

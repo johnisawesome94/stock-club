@@ -11,32 +11,33 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 })
 export class FundsCardComponent implements OnInit {
 
-  public totalMoney: number;
-  public availableMoney: number;
-  public pendingMoney: number;
-  public usedMoney: number;
+  public stockClubFunds: Funds = new Funds(0, 0, 0, 0);
+  public personalFunds: Funds = new Funds(0, 0, 0, 0);
 
   constructor(private fundsService: FundsService, private modalService: NgbModal) { }
 
   ngOnInit() {
-      this.getFunds();
+    this.getFunds();
+    this.getPersonalFunds();
   }
 
   public getFunds(): void {
     this.fundsService.getFunds().subscribe((fundData: Funds) => {
-      this.totalMoney = fundData.total;
-      this.availableMoney = fundData.available;
-      this.pendingMoney = fundData.pending;
-      this.usedMoney = fundData.used;
+      this.stockClubFunds = fundData;
     }); 
   }
 
+  public getPersonalFunds(): void {
+    this.fundsService.getLoggedInUsersFunds().subscribe((fundData: Funds) => {
+      this.personalFunds = fundData;
+    }); 
+  }
   public openAddFundsModal(): void {
-    console.log("button clicked");
     const modalRef: NgbModalRef = this.modalService.open(AddFundsModalComponent)
     modalRef.result.then((result: string) => {
       if (result === 'add') {
         this.getFunds();
+        this.getPersonalFunds();
       }
     })
   }

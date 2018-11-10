@@ -92,17 +92,26 @@ def getFunds():
     total = available + used + pending
     return '{"available": ' + str(available) + ', "used": ' + str(used) + ', "pending": ' + str(pending) + ', "total": ' + str(total) + '}'
 
-# @app.route('/funds/<string:user_id>', methods=['GET'])
-# def getFunds(user_id):
-#    return dumps(mongo.db.funds.find({ "userId": user_id }))
+@app.route('/funds/<string:user_id>', methods=['GET'])
+def getMemberFunds(user_id):
+    # print(del('_id', mongo.db.funds.find_one({ "userId": user_id })))
+    funds = dumps(mongo.db.funds.find_one({ "userId": user_id }))
+    if funds is None:
+        return '{"available": ' + str(0) + ', "used": ' + str(0) + ', "pending": ' + str(0) + ', "total": ' + str(0) + '}'
+    else:
+        return funds # todo: need to add total
 
 @app.route('/funds', methods=['POST'])
 def postFunds():
     data = request.json
     newAmount = data['amount']
+    previousAmount = 0
     fund = mongo.db.funds.find_one( { "userId": data["userId"] })
-    previousAmount = fund['available']
-    mongo.db.funds.update_one({ 'userId': data['userId'] }, { '$set': { 'available': int(previousAmount) + int(newAmount) } })
+    if fund is None:
+        mongo.db.funds.insert_one({'userId': data["userId"], 'available': newAmount, 'used': 0, 'pending': 0})
+    else:
+        previousAmount = fund['available']
+        mongo.db.funds.update_one({ 'userId': data['userId'] }, { '$set': { 'available': int(previousAmount) + int(newAmount) } })
     resp = 'Added $' + str(newAmount) + ' to funds. Total is now $' + str(int(previousAmount) + int(newAmount))
     print(resp)
     return generate_response(resp)
