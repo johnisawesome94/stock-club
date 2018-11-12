@@ -13,6 +13,7 @@
 
   <!-- Rest of App -->
   <div class="app-content">
+    <ngb-alert *ngIf="showNotification" [type]="notification.type" [dismissible]="notification.dismissible">{{ notification.message }}</ngb-alert>
     <router-outlet></router-outlet>
   </div>
 </div>

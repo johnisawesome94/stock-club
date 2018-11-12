@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './authentication/authentication.service';
+import { Notification } from './common/types';
+import { NotificationService } from './services/notification.service';
+
 
 @Component({
   selector: 'app-root',
@@ -7,12 +10,17 @@ import { AuthenticationService } from './authentication/authentication.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'my-app';
 
-  constructor(private authenticationService: AuthenticationService) {}
+  public showNotification: boolean = false;
+  public notification: Notification = new Notification('', '');
+
+  constructor(private authenticationService: AuthenticationService, private notificationService: NotificationService) {}
 
   public ngOnInit(): void {
-    //this.authenticationService.currentUser.subscribe(())
+    this.notificationService.getNotifications().subscribe((notification: Notification) => {
+      this.showNotification = true;
+      this.notification = notification;
+    });
   }
 
   public logout(): void {
