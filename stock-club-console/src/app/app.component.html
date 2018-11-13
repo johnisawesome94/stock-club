@@ -1,6 +1,6 @@
 <div class="app-wrapper">
 
-  <!-- Tob Bar-->
+  <!-- Tob Bar -->
   <div class="app-top-bar">
     <div class="app-top-bar-left">
       <div class="app-top-bar-logo-wrapper">
@@ -11,9 +11,25 @@
     <button type="button" class="btn btn-link" (click)="logout()">Logout</button>
   </div>
 
+  <!-- Alerts  -->
+  <ngb-alert *ngIf="persistentNotification"
+    class="app-alerts"
+    [type]="persistentNotification.type"
+    [dismissible]="true"
+    (close)="closePersistentNotification()">
+      {{ persistentNotification.message }}
+  </ngb-alert>
+  <ngb-alert *ngIf="transientNotification"
+    class="app-alerts"
+    [type]="transientNotification.type"
+    [dismissible]="false"
+    (close)="closeTransientNotification()">
+      {{ transientNotification.message }}
+  </ngb-alert>
+    
+
   <!-- Rest of App -->
   <div class="app-content">
-    <ngb-alert *ngIf="showNotification" [type]="notification.type" [dismissible]="notification.dismissible">{{ notification.message }}</ngb-alert>
     <router-outlet></router-outlet>
   </div>
 </div>

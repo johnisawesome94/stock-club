@@ -46,4 +46,12 @@
     width: 100vw;
     background-color: $super-light-gray;
     padding: 15px;
+    position: fixed;
+    left: 0;
+    top: 50px;
+}
+
+.app-alerts {
+    margin: 0;
+    z-index: 1000;
 }

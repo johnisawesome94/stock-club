@@ -7,13 +7,14 @@ import { User, RegisterUser } from '../common/types';
 import { Router } from '@angular/router';
 import { RestConstants } from '../common/constants/rest';
 import * as jwt_decode from "jwt-decode";
+import { NotificationService } from '../services/notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
 
-    constructor(private http: HttpClient, private router: Router) {
+    constructor(private http: HttpClient, private router: Router, private notificationService: NotificationService) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -41,6 +42,7 @@ export class AuthenticationService {
 
     public logout(): void {
         // remove user from local storage to log user out
+        this.notificationService.dismissAllNotifications();
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
         this.router.navigate(['/login']);
