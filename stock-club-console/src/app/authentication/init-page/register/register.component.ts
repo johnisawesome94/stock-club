@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../authentication.service';
-import { RegisterUser } from 'src/app/common/types';
+import { RegisterUser, NotificationTypes } from 'src/app/common/types';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,7 @@ export class RegisterComponent implements OnInit {
   public newUser: RegisterUser = new RegisterUser('', '', '', '');
   @Output() registered = new EventEmitter<void>();
 
-  constructor(private router: Router, private authenticationService: AuthenticationService) { }
+  constructor(private router: Router, private authenticationService: AuthenticationService, private notificationService: NotificationService) { }
 
   public ngOnInit(): void {}
 
@@ -21,7 +22,7 @@ export class RegisterComponent implements OnInit {
     this.authenticationService.registerUser(this.newUser).subscribe(() => {
       this.registered.emit();
     }, error => {
-      // TODO: handle error logging in
+      this.notificationService.addNotification(NotificationTypes.Danger, 'Error: ' + error, false);
     });
   }
 

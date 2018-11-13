@@ -11,20 +11,37 @@ import { NotificationService } from './services/notification.service';
 })
 export class AppComponent implements OnInit {
 
-  public showNotification: boolean = false;
-  public notification: Notification = new Notification('', '');
+  public transientNotification: Notification;
+  public persistentNotification: Notification;
 
   constructor(private authenticationService: AuthenticationService, private notificationService: NotificationService) {}
 
   public ngOnInit(): void {
-    this.notificationService.getNotifications().subscribe((notification: Notification) => {
-      this.showNotification = true;
-      this.notification = notification;
+    this.notificationService.getTransientNotifications().subscribe((notification: Notification) => {
+      this.transientNotification = notification;
+      if (notification) {
+        setTimeout(() => {
+          this.closeTransientNotification();
+        }, notification.duration);
+      }
+    });
+    this.notificationService.getPersistentNotifications().subscribe((notification: Notification) => {
+      this.persistentNotification = notification;
     });
   }
 
   public logout(): void {
     this.authenticationService.logout();
+  }
+
+  public closePersistentNotification(): void {
+    this.persistentNotification = null;
+    this.notificationService.closePersistentNotification();
+  }
+
+  public closeTransientNotification(): void {
+    this.transientNotification = null;
+    this.notificationService.closeTransientNotification();
   }
 }
 

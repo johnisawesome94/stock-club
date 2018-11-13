@@ -16,18 +16,18 @@ export class AddFundsModalComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal, private fundsService: FundsService, private notificationService: NotificationService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public addFunds(): void {
     this.fundsService.postFunds(this.contribution).subscribe(() => {
-      // TODO: handle adding funds success case
-      console.log('Added funds successfully');
       this.notificationService.addNotification(NotificationTypes.Success, 'Successfully added funds', true);
+      this.notificationService.addNotification(NotificationTypes.Danger, 'Successfully added funds', false);
+      this.notificationService.addNotification(NotificationTypes.Info, 'Successfully added funds', true);
+      this.notificationService.addNotification(NotificationTypes.Info, 'Successfully added funds', false);
+      this.notificationService.addNotification(NotificationTypes.Danger, 'Successfully added funds', true);
+      this.notificationService.addNotification(NotificationTypes.Success, 'Successfully added funds', false);
     }, () => {
-      // TODO: handle adding funds error case
       this.notificationService.addNotification(NotificationTypes.Danger, 'Failed to add funds', true);
-      console.log('Funds not added successully');
     }, () => {
       this.activeModal.close('add');
     });
