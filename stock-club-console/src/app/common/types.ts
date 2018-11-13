@@ -54,3 +54,14 @@ export class Notification {
         public dismissible?: boolean,
         public duration?: number) {}
 }
+
+export class Stock {
+    constructor(
+        public id: string,
+        public displayName: string,
+        public ticker: string,
+        public pricePerSharePurchased: number,
+        public numberOfSharesOwned: number,
+        public totalValueOwned: number,
+        public timePurchased: number) {}
+}

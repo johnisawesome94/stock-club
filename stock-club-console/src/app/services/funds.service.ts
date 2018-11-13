@@ -23,5 +23,4 @@ export class FundsService {
   public postFunds(contribution: string): Observable<any> {
     return this.httpClient.post<string>(RestConstants.FUNDS_URL, {userId: this.authenticationService.getLoggedInUsersId(), amount: contribution });
   }
-
 }

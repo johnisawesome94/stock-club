@@ -1,5 +1,6 @@
 {
-    "/auth": { "target": "http://localhost:3000", "secure": false },
-    "/members": { "target": "http://localhost:3000", "secure": false },
-    "/funds": { "target": "http://localhost:3000", "secure": false }
+    "/api/auth": { "target": "http://localhost:3000", "pathRewrite": {"^/api" : ""}, "secure": false },
+    "/api/members": { "target": "http://localhost:3000", "pathRewrite": {"^/api" : ""}, "secure": false },
+    "/api/funds": { "target": "http://localhost:3000", "pathRewrite": {"^/api" : ""}, "secure": false },
+    "/api/stocks": { "target": "http://localhost:3000", "pathRewrite": {"^/api" : ""}, "secure": false }
 }

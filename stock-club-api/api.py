@@ -4,15 +4,22 @@ from flask_restful import reqparse, abort, Api, Resource
 from flask_pymongo import PyMongo
 from bson.json_util import dumps
 from uuid import uuid4
+from alpha_vantage.timeseries import TimeSeries
 import jwt
 import datetime
 import bcrypt
+
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://stock-club:stock-club1@ds155213.mlab.com:55213/heroku_n7zk6r5p"
 app.config["SECRET_KEY"] = "J\x049E3\xc9r\xac \xccwR\xc8&\xaa\x02+\xb3\xd1\xb2}\xfe3\x95"
 mongo = PyMongo(app)
 api = Api(app)
+
+
+ALPHA_VANTAGE_API_KEY = 'ETOGY4QLPL5GS9HH'
+av = TimeSeries(key=ALPHA_VANTAGE_API_KEY)
+
 
 
 ####################
@@ -115,6 +122,46 @@ def postFunds():
     resp = 'Added $' + str(newAmount) + ' to funds. Total is now $' + str(int(previousAmount) + int(newAmount))
     print(resp)
     return generate_response(resp)
+
+
+##################
+## STOCKS API'S ##
+##################
+@app.route('/stocks', methods=['GET'])
+def getStocks():
+    print('batch stocks: ' + str(av.get_batch_stock_quotes(symbols=('MSFT', 'FB', 'AAPL'))))
+
+    stocks = dumps(mongo.db.stocks.find())
+    if stocks is None:
+        return jsonify([])
+    else:
+        return stocks
+
+app.route('/stocks', methods=['POST'])
+def postStocks():
+    data = request.json
+    id = str(uuid4())
+    stock = mongo.db.stocks.find_one( { 'stockId': data['id'] })
+
+    # share = Share(data['ticker'])
+    # print('get_name(): ' + share.get_name())
+
+    # if stock is None:
+    #     mongo.db.stocks.insert_one({'stockId': id, 'ticker': data['ticker'], 'used': 0, 'pending': 0})
+    # else:
+    #     previousAmount = fund['available']
+    #     mongo.db.funds.update_one({ 'userId': data['userId'] }, { '$set': { 'available': int(previousAmount) + int(newAmount) } })
+    # resp = 'Added $' + str(newAmount) + ' to funds. Total is now $' + str(int(previousAmount) + int(newAmount))
+    # print(resp)
+    return generate_response('hi')
+
+@app.route('/stocks/<string:stock_id>', methods=['DELETE'])
+def putStocks(stock_id):
+    mongo.db.stocks.delete_one({ "id": stock_id })
+    resp = 'deleted stocks with id: ' + stock_id
+    print(resp)
+    return generate_response(resp)
+
 
 
 #################

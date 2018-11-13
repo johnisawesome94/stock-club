@@ -1,0 +1,36 @@
+{
+    "stocks": [{
+        "id": "1234",
+        "displayName": "Google",
+        "ticker": "GOOGL",
+        "pricePerSharePurchased": "10.00",
+        "numberOfSharesOwned": "10",
+        "totalValueOwned": "100.00",
+        "timePurchased": "1542132603"
+
+    }, {
+        "id": "1235",
+        "displayName": "Amazon",
+        "ticker": "AMZN",
+        "pricePerSharePurchased": "1.00",
+        "numberOfSharesOwned": "1000",
+        "totalValueOwned": "1000.00",
+        "timePurchased": "1542132603"
+    }, {
+        "id": "1236",
+        "displayName": "Apple",
+        "ticker": "AAPL",
+        "pricePerSharePurchased": "100.00",
+        "numberOfSharesOwned": "100",
+        "totalValueOwned": "10000.00",
+        "timePurchased": "1542132603"
+    }, {
+        "id": "1237",
+        "displayName": "Netflix",
+        "ticker": "NFLX",
+        "pricePerSharePurchased": "2.00",
+        "numberOfSharesOwned": "25",
+        "totalValueOwned": "50.00",
+        "timePurchased": "1542132603"
+    }]
+}

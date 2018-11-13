@@ -15,6 +15,7 @@ import { AddMemberModalComponent } from './dashboard/members-card/add-member-mod
 import { AddFundsModalComponent } from './dashboard/funds-card/add-funds-modal/add-funds-modal.component';
 import { InitPageComponent } from './authentication/init-page/init-page.component';
 import { RegisterComponent } from './authentication/init-page/register/register.component';
+import { StocksCardComponent } from './dashboard/stocks-card/stocks-card.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RegisterComponent } from './authentication/init-page/register/register.
     MembersCardComponent,
     AddFundsModalComponent,
     InitPageComponent,
-    RegisterComponent
+    RegisterComponent,
+    StocksCardComponent
   ],
   imports: [
     BrowserModule,

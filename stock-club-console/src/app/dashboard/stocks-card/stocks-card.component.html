@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-body">
+        <div class="card-title medium-text-bold margin-bottom-15">
+            Stocks
+        </div>
+        <ul class="list-group">
+            <li *ngFor="let stock of stocks" class=list-group-item (click)="selectedStockId = stock.id" [ngClass]="{'active': selectedStockId === stock.id}">
+                <div class="small-text">
+                {{ stock.displayName }} {{ stock.totalValueOwned }}
+                </div>
+            </li>
+        </ul>
+        <button type="button" class="btn secondary-button margin-top-15" (click)="openSellStockModal()" [disabled]="!selectedStockId">Sell Stocks</button>
+        <button type="button" class="btn primary-button margin-top-15" (click)="openBuyStockModal()">Buy Stocks</button>
+    </div>
+</div>
