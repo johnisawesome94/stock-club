@@ -18,7 +18,7 @@ api = Api(app)
 
 
 ALPHA_VANTAGE_API_KEY = 'ETOGY4QLPL5GS9HH'
-av = TimeSeries(key=ALPHA_VANTAGE_API_KEY)
+av = TimeSeries(key=ALPHA_VANTAGE_API_KEY, output_format='json')
 
 
 
@@ -137,7 +137,13 @@ def getStocks():
     else:
         return stocks
 
-app.route('/stocks', methods=['POST'])
+@app.route('/stocks/<string:search_string>', methods=['GET'])
+def searchStocks(search_string):
+    searchResult = av.get_symbol_search(search_string)
+    print('batch stocks: ' + str(jsonify(searchResult)))
+    return jsonify(searchResult)
+
+@app.route('/stocks', methods=['POST'])
 def postStocks():
     data = request.json
     id = str(uuid4())

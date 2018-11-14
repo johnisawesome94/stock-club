@@ -3,6 +3,25 @@
         <div class="card-title medium-text-bold margin-bottom-15">
             Stocks
         </div>
+        <div class="form-group margin-bottom-15">
+            <label for="contribution">Search Stocks</label>
+            <div class="input-group">
+                <input type="text"
+                    class="form-control"
+                    id="new-funds-contribution"
+                    placeholder="Search stocks..."
+                    [(ngModel)]="stockSearch"
+                    [ngbTypeahead]="search"
+                    #stockSearchInput>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="searchStocks()">
+                        <i class="fa-search fa"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- <button type="button" class="btn secondary-button margin-top-15 margin-bottom-15" (click)="searchStocks()">Search Stocks</button> -->
+
         <ul class="list-group">
             <li *ngFor="let stock of stocks" class=list-group-item (click)="selectedStockId = stock.id" [ngClass]="{'active': selectedStockId === stock.id}">
                 <div class="small-text">
