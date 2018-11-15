@@ -11,7 +11,7 @@
                     id="new-funds-contribution"
                     placeholder="Search stocks..."
                     [(ngModel)]="stockSearch"
-                    [ngbTypeahead]="search"
+                    [matAutocomplete]="auto"
                     #stockSearchInput>
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" (click)="searchStocks()">
@@ -20,7 +20,6 @@
                 </div>
             </div>
         </div>
-        <!-- <button type="button" class="btn secondary-button margin-top-15 margin-bottom-15" (click)="searchStocks()">Search Stocks</button> -->
 
         <ul class="list-group">
             <li *ngFor="let stock of stocks" class=list-group-item (click)="selectedStockId = stock.id" [ngClass]="{'active': selectedStockId === stock.id}">
@@ -30,6 +29,12 @@
             </li>
         </ul>
         <button type="button" class="btn secondary-button margin-top-15" (click)="openSellStockModal()" [disabled]="!selectedStockId">Sell Stocks</button>
-        <button type="button" class="btn primary-button margin-top-15" (click)="openBuyStockModal()">Buy Stocks</button>
+        <button type="button" class="btn primary-button margin-top-15" (click)="openAddStockModal()">Buy Stocks</button>
     </div>
 </div>
+
+<mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let stock of stockSearchResults" [value]="stock">
+        {{ stock }}
+    </mat-option>
+</mat-autocomplete>

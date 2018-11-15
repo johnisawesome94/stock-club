@@ -65,3 +65,11 @@ export class Stock {
         public totalValueOwned: number,
         public timePurchased: number) {}
 }
+
+export class UpdateStock {
+    constructor(
+        public ticker: string,
+        public pricePerShare: number,
+        public numberOfShares: number,
+        public timePurchased: number) {}
+}

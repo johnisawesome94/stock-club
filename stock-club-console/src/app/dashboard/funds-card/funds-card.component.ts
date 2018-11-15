@@ -32,6 +32,7 @@ export class FundsCardComponent implements OnInit {
       this.personalFunds = fundData;
     }); 
   }
+
   public openAddFundsModal(): void {
     const modalRef: NgbModalRef = this.modalService.open(AddFundsModalComponent)
     modalRef.result.then((result: string) => {
@@ -41,5 +42,4 @@ export class FundsCardComponent implements OnInit {
       }
     })
   }
-
 }

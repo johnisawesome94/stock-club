@@ -2,6 +2,7 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
 @import "styles/_variables.scss";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 .tiny-text {
     font: 10px $font-family;
@@ -80,4 +81,8 @@
 .tab-active {
     color: #ffffff !important;
     background-color: $primary-color;
+}
+
+mat-dialog-container.mat-dialog-container {
+    padding: 0;
 }

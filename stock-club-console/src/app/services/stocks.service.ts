@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RestConstants } from '../common/constants/rest';
 import { Observable } from 'rxjs';
-import { Stock } from '../common/types';
+import { Stock, UpdateStock } from '../common/types';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -22,11 +22,11 @@ export class StocksService {
     );
   }
 
-  public postMember(newStock: Stock): Observable<Stock> {
-    return this.httpClient.post<Stock>(RestConstants.STOCKS_URL, newStock);
+  public postStocks(stock: UpdateStock): Observable<Stock> {
+    return this.httpClient.post<Stock>(RestConstants.STOCKS_URL, stock);
   }
 
-  public deleteMember(stockId: string): Observable<any> {
+  public deleteStocks(stockId: string): Observable<any> {
     return this.httpClient.delete(`${RestConstants.STOCKS_URL}/${stockId}`, { responseType: 'text' });
   }
 }

@@ -1,0 +1,51 @@
+<div class="modal-header">
+  <div class="modal-title large-text">Add Stocks</div>
+  <button type="button" class="close" aria-label="Close" (click)="dialogRef.close('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <mat-form-field>
+        <input matInput
+            type="text"
+            id="add-stock-ticker"
+            placeholder="Ticker"
+            [(ngModel)]="stock.ticker"
+            [matAutocomplete]="auto"
+            #stockTickerInput>
+        <button mat-button matSuffix (click)="searchStocks()">
+            <i class="fa-search fa"></i>
+        </button>
+    </mat-form-field>
+    <div class="form-group">
+        <label>Price Per Share</label>
+        <input type="text"
+          class="form-control"
+          id="add-stock-price-per-share"
+          placeholder="Price per share..."
+          [(ngModel)]="stock.pricePerShare">
+    </div>
+    <div class="form-group">
+      <label>Number of Shares</label>
+      <input type="text"
+        class="form-control"
+        id="add-stock-number-of-shares"
+        placeholder="Number of shares..."
+        [(ngModel)]="stock.numberOfShares">
+    </div>
+    <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Date Purchased" [(ngModel)]="stock.timePurchased">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn primary-button" (click)="addStocks()">Add</button>
+  <button type="button" class="btn secondary-button" (click)="dialogRef.close('close')">Cancel</button>
+</div>
+
+<mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let stock of stockSearchResults" [value]="stock">
+        {{ stock }}
+    </mat-option>
+</mat-autocomplete>

@@ -1,3 +1,4 @@
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
@@ -16,6 +17,8 @@ import { AddFundsModalComponent } from './dashboard/funds-card/add-funds-modal/a
 import { InitPageComponent } from './authentication/init-page/init-page.component';
 import { RegisterComponent } from './authentication/init-page/register/register.component';
 import { StocksCardComponent } from './dashboard/stocks-card/stocks-card.component';
+import { MatAutocompleteModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatDialogModule, MatButtonModule } from '@angular/material';
+import { AddStockModalComponent } from './dashboard/stocks-card/add-stock-modal/add-stock-modal.component';
 
 @NgModule({
   declarations: [
@@ -28,14 +31,23 @@ import { StocksCardComponent } from './dashboard/stocks-card/stocks-card.compone
     AddFundsModalComponent,
     InitPageComponent,
     RegisterComponent,
-    StocksCardComponent
+    StocksCardComponent,
+    AddStockModalComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -43,7 +55,8 @@ import { StocksCardComponent } from './dashboard/stocks-card/stocks-card.compone
   ],
   entryComponents: [
     AddMemberModalComponent,
-    AddFundsModalComponent
+    AddFundsModalComponent,
+    AddStockModalComponent
   ],
   bootstrap: [AppComponent]
 })

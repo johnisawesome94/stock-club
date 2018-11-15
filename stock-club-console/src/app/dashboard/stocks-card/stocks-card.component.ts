@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { StocksService } from 'src/app/services/stocks.service';
 import { Stock } from 'src/app/common/types';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { MatAutocompleteTrigger, MatDialog } from '@angular/material';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddStockModalComponent } from './add-stock-modal/add-stock-modal.component';
 
 @Component({
   selector: 'stocks-card',
@@ -16,9 +17,9 @@ export class StocksCardComponent implements OnInit {
   public stockSearch: string = '';
   public stockSearchResults: any[] = [];
 
-  @ViewChild('stockSearchInput') stockSearchInput: any;
+  @ViewChild('stockSearchInput', { read: MatAutocompleteTrigger }) autoComplete: MatAutocompleteTrigger;
 
-  constructor(private stocksService: StocksService) { }
+  constructor(private stocksService: StocksService, private modalService: NgbModal, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.stocksService.getStocks().subscribe((stockData: Stock[]) => {
@@ -31,24 +32,24 @@ export class StocksCardComponent implements OnInit {
   public searchStocks(): void {
     if (this.stockSearch) {
       this.stocksService.searchStocks(this.stockSearch).subscribe((stockSearchResults: any) => {
-        this.stockSearchResults = stockSearchResults;
-        this.stockSearch = this.stockSearch + ' ';
-        this.stockSearchInput.nativeElement.value = 'butt';
-        console.log('search results: ' + stockSearchResults.map((item) => item['1. symbol']));
-        console.log('search result 1st: ' + stockSearchResults.map((item) => item['1. symbol'])[0]);
-        console.log('type: ' + typeof stockSearchResults.map((item) => item['1. symbol'])[0]);
+        this.stockSearchResults = stockSearchResults.map((item) => item['1. symbol']);
+        this.autoComplete.openPanel();
       });
     }
   }
 
-  search = (text$: Observable<string>) => {
-    console.log('got here in search 111111111111111');
-    return text$.pipe(
-      // debounceTime(200),
-      map(term => {
-        console.log('term updated: ' + term);
-        return this.stockSearchResults.map((item) => item['1. symbol']);
-      })
-    );
-    }
+  public openAddStockModal(): void {
+    const dialogRef = this.dialog.open(AddStockModalComponent, {
+      width: '',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed: ' + result);
+      if (result === 'add') {
+        // TODO
+        //this.getStocks();
+      }      
+    });
+  }
 }
