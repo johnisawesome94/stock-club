@@ -60,7 +60,6 @@
 
 .primary-button {
     background-color: $secondary-color;
-    float: right;
     color: $white;
     margin-left: 15px;
     min-width: 90px;
@@ -68,7 +67,6 @@
 
 .secondary-button {
     background-color: $light-secondary-color;
-    float: right;
     color: $white;
     margin-left: 15px;
     min-width: 90px;
@@ -85,4 +83,43 @@
 
 mat-dialog-container.mat-dialog-container {
     padding: 0;
+}
+
+ mat-card {
+    mat-card-header {
+        margin: 0 0 5px;
+        font: bold 18px $font-family;
+    }
+
+    mat-card-actions.mat-card-actions {
+        margin: 0 !important;
+    }
+
+    mat-card-header div.mat-card-header-text {
+        margin: 0;
+    }
+}
+
+mat-list {
+    mat-list-item.mat-list-item {
+        height: 50px !important;
+        margin-bottom: -1px;
+        border: 1px $light-gray solid;
+    }
+
+    mat-list-item:hover {
+        background-color: $light-gray;
+        border: 1px $light-gray solid;
+    }
+
+    mat-list-item.active {
+        z-index: 2;
+        color: $white !important;
+        background-color: $selection-color;
+        border: 1px $selection-color solid !important;
+
+        div {
+            color: $white;
+        }
+    }
 }

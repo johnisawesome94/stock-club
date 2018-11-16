@@ -1,19 +1,21 @@
-<div class="card margin-bottom-15">
-    <div class="card-body">
-        <div class="card-title medium-text-bold margin-bottom-15">
+<mat-card>
+    <mat-card-header>
             Stock Club Members
-        </div>
-        <ul class="list-group">
-            <li *ngFor="let member of members" class=list-group-item (click)="selectedMemberId = member.id" [ngClass]="{'active': selectedMemberId === member.id}">
-                <div class="small-text">
-                {{ member.firstName }} {{ member.lastName }}
+    </mat-card-header>
+    <mat-card-content>
+        <mat-list>
+            <mat-list-item *ngFor="let member of members" (click)="selectedMemberId = member.id" [ngClass]="{'active': selectedMemberId === member.id}">
+                <div matLine class="small-text">
+                    {{ member.firstName }} {{ member.lastName }}
                 </div>
-                <div class="tiny-text sub-text">
-                    {{ member.email}}
+                <div matLine class="tiny-text sub-text">
+                    {{ member.email }}
                 </div>
-            </li>
-        </ul>
-        <button type="button" class="btn secondary-button margin-top-15" (click)="deleteMember()" [disabled]="!selectedMemberId">Delete Member</button>
-        <button type="button" class="btn primary-button margin-top-15" (click)="openAddMemberModal()">Add Member</button>
-    </div>
-</div>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+    <mat-card-actions [align]="'end'">
+        <button type="button" class="btn secondary-button" (click)="deleteMember()" [disabled]="!selectedMemberId">Delete Member</button>
+        <button type="button" class="btn primary-button" (click)="openAddMemberModal()">Add Member</button>
+    </mat-card-actions>
+</mat-card>

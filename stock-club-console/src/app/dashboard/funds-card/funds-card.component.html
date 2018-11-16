@@ -1,8 +1,8 @@
-<div class="card margin-bottom-15">
-    <div class="card-body">
-        <div class="card-title medium-text-bold margin-bottom-15">
-            Stock Club Funds
-        </div>
+<mat-card>
+    <mat-card-header class="medium-text-bold">
+        Stock Club Funds
+    </mat-card-header>
+    <mat-card-content>
         <div class="small-text-bold display-flex-row">
             Total Money:&nbsp;
             <div class="small-text">
@@ -27,9 +27,11 @@
                 {{ stockClubFunds.used }}
             </div>
         </div>
-        <div class="card-title medium-text-bold margin-bottom-15 margin-top-15">
-            Personal Funds
-        </div>
+    </mat-card-content>
+    <mat-card-header class="medium-text-bold">
+        Personal Funds
+    </mat-card-header>
+    <mat-card-content>
         <div class="small-text-bold display-flex-row">
             Total Money:&nbsp;
             <div class="small-text">
@@ -54,6 +56,10 @@
                 {{ personalFunds.used }}
             </div>
         </div>
-        <button type="button" class="btn primary-button margin-top-15" (click)="openAddFundsModal()">Add Funds</button>
-    </div>
-</div>
+    </mat-card-content>
+    <mat-card-actions [align]="'end'">
+        <button mat-button class="primary-button" (click)="openAddFundsModal()">
+            Add Funds
+        </button>
+    </mat-card-actions>
+</mat-card>

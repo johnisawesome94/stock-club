@@ -17,7 +17,7 @@ import { AddFundsModalComponent } from './dashboard/funds-card/add-funds-modal/a
 import { InitPageComponent } from './authentication/init-page/init-page.component';
 import { RegisterComponent } from './authentication/init-page/register/register.component';
 import { StocksCardComponent } from './dashboard/stocks-card/stocks-card.component';
-import { MatAutocompleteModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatDialogModule, MatButtonModule } from '@angular/material';
+import { MatAutocompleteModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatDialogModule, MatButtonModule, MatCardModule, MatListModule } from '@angular/material';
 import { AddStockModalComponent } from './dashboard/stocks-card/add-stock-modal/add-stock-modal.component';
 
 @NgModule({
@@ -47,7 +47,9 @@ import { AddStockModalComponent } from './dashboard/stocks-card/add-stock-modal/
     MatNativeDateModule,
     MatInputModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule,
+    MatListModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
