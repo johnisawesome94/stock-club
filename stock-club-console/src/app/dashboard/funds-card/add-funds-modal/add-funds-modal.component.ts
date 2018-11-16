@@ -20,14 +20,9 @@ export class AddFundsModalComponent implements OnInit {
 
   public addFunds(): void {
     this.fundsService.postFunds(this.contribution).subscribe(() => {
-      this.notificationService.addNotification(NotificationTypes.Success, 'Successfully added funds', true);
-      this.notificationService.addNotification(NotificationTypes.Danger, 'Successfully added funds', false);
-      this.notificationService.addNotification(NotificationTypes.Info, 'Successfully added funds', true);
-      this.notificationService.addNotification(NotificationTypes.Info, 'Successfully added funds', false);
-      this.notificationService.addNotification(NotificationTypes.Danger, 'Successfully added funds', true);
       this.notificationService.addNotification(NotificationTypes.Success, 'Successfully added funds', false);
     }, () => {
-      this.notificationService.addNotification(NotificationTypes.Danger, 'Failed to add funds', true);
+      this.notificationService.addNotification(NotificationTypes.Danger, 'Failed to add funds', false);
     }, () => {
       this.activeModal.close('add');
     });

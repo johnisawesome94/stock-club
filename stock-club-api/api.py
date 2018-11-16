@@ -88,37 +88,32 @@ def deleteMember(member_id):
 #################
 @app.route('/funds', methods=['GET'])
 def getFunds():
-    funds = mongo.db.funds.find()
-    available = 0
-    used = 0
-    pending = 0
-    for fund in funds:
-        available += fund['available']
-        used += fund['used']
-        pending += fund['pending']
-    total = available + used + pending
-    return '{"available": ' + str(available) + ', "used": ' + str(used) + ', "pending": ' + str(pending) + ', "total": ' + str(total) + '}'
+    fund = mongo.db.funds.find_one({ 'userId': 'general' })
+    total = fund['available'] + fund['used'] + fund['pending']
+    return '{"available": ' + str(fund['available']) + ', "used": ' + str(fund['used']) + ', "pending": ' + str(fund['pending']) + ', "total": ' + str(total) + '}'
 
 @app.route('/funds/<string:user_id>', methods=['GET'])
 def getMemberFunds(user_id):
-    # print(del('_id', mongo.db.funds.find_one({ "userId": user_id })))
-    funds = dumps(mongo.db.funds.find_one({ "userId": user_id }))
-    if funds is None:
+    fund = mongo.db.funds.find_one({ "userId": user_id })
+    if fund is None:
         return '{"available": ' + str(0) + ', "used": ' + str(0) + ', "pending": ' + str(0) + ', "total": ' + str(0) + '}'
     else:
-        return funds # todo: need to add total
+        total = fund['available'] + fund['used'] + fund['pending']
+        return '{"available": ' + str(fund['available']) + ', "used": ' + str(fund['used']) + ', "pending": ' + str(fund['pending']) + ', "total": ' + str(total) + '}'
 
 @app.route('/funds', methods=['POST'])
 def postFunds():
     data = request.json
     newAmount = data['amount']
     previousAmount = 0
+    generalFund = mongo.db.funds.find_one({ 'userId': 'general' })
     fund = mongo.db.funds.find_one( { "userId": data["userId"] })
     if fund is None:
         mongo.db.funds.insert_one({'userId': data["userId"], 'available': newAmount, 'used': 0, 'pending': 0})
     else:
         previousAmount = fund['available']
         mongo.db.funds.update_one({ 'userId': data['userId'] }, { '$set': { 'available': int(previousAmount) + int(newAmount) } })
+    mongo.db.funds.update_one({ 'userId': 'general' }, { '$set': { 'available': int(generalFund['available']) + int(newAmount) } })
     resp = 'Added $' + str(newAmount) + ' to funds. Total is now $' + str(int(previousAmount) + int(newAmount))
     print(resp)
     return generate_response(resp)
@@ -127,10 +122,11 @@ def postFunds():
 ##################
 ## STOCKS API'S ##
 ##################
+
+# TODO:
+# - send updated stock prices with stocks
 @app.route('/stocks', methods=['GET'])
 def getStocks():
-    print('batch stocks: ' + str(av.get_batch_stock_quotes(symbols=('MSFT', 'FB', 'AAPL'))))
-
     stocks = dumps(mongo.db.stocks.find())
     if stocks is None:
         return jsonify([])
@@ -138,36 +134,60 @@ def getStocks():
         return stocks
 
 @app.route('/stocks/<string:search_string>', methods=['GET'])
-def searchStocks(search_string):
+def searchTickers(search_string):
     searchResult = av.get_symbol_search(search_string)
     print('batch stocks: ' + str(jsonify(searchResult)))
     return jsonify(searchResult)
 
+
+# Expected payload:
+# ticker: string
+# pricePerShare: number
+# numberOfShares: number (negative for sell, positive for buy)
+
+# Stocks db stucture:
+# ticker: string
+# numberOfShares: number
+
+
+# TODO: 
+# - add error handling
+# - add deleting stocks
+# - update general fund when buying/selling stocks
+
 @app.route('/stocks', methods=['POST'])
 def postStocks():
     data = request.json
-    id = str(uuid4())
-    stock = mongo.db.stocks.find_one( { 'stockId': data['id'] })
+    ticker = data['ticker']
+    pricePerShare = int(data['pricePerShare'])
+    numberOfShares = int(data['numberOfShares'])
+    buying = numberOfShares > 0
+    fund = mongo.db.funds.find_one({ 'userId': 'general' })
+    stock = mongo.db.stocks.find_one( { 'ticker': ticker })
 
-    # share = Share(data['ticker'])
-    # print('get_name(): ' + share.get_name())
+    if buying and numberOfShares * pricePerShare > fund['available']:
+        # throw error: not enough available funds to purchase stock
+        print('ERROR: not enough available funds to purchase stock')
 
-    # if stock is None:
-    #     mongo.db.stocks.insert_one({'stockId': id, 'ticker': data['ticker'], 'used': 0, 'pending': 0})
-    # else:
-    #     previousAmount = fund['available']
-    #     mongo.db.funds.update_one({ 'userId': data['userId'] }, { '$set': { 'available': int(previousAmount) + int(newAmount) } })
-    # resp = 'Added $' + str(newAmount) + ' to funds. Total is now $' + str(int(previousAmount) + int(newAmount))
-    # print(resp)
+    if stock is None:
+        if buying:
+            #buying new stock
+            mongo.db.stocks.insert_one({ 'ticker': ticker, 'numberOfShares': int(numberOfShares) })
+        else:
+            # throw error: trying to sell stock that doesn't exist
+            print('Error: trying to sell stock that doesn\'t exist')
+    else:
+        #stock exists, add or subtract from it
+        if buying:
+            mongo.db.stocks.update_one({ 'ticker': ticker }, { '$set': { 'numberOfShares': int(stock['numberOfShares']) + int(numberOfShares) } })
+        else:
+            # selling shares of a stock
+            if numberOfShares > stock['numberOfShares']:
+                # throw error: trying to sell more shares than owned
+                print('ERROR: trying to sell more shares than owned')
+            else:
+                mongo.db.stocks.update_one({ 'ticker': ticker }, { '$set': { 'numberOfShares': int(stock['numberOfShares']) + int(numberOfShares) } })
     return generate_response('hi')
-
-@app.route('/stocks/<string:stock_id>', methods=['DELETE'])
-def putStocks(stock_id):
-    mongo.db.stocks.delete_one({ "id": stock_id })
-    resp = 'deleted stocks with id: ' + stock_id
-    print(resp)
-    return generate_response(resp)
-
 
 
 #################

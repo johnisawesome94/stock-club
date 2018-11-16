@@ -33,14 +33,9 @@
         placeholder="Number of shares..."
         [(ngModel)]="stock.numberOfShares">
     </div>
-    <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Date Purchased" [(ngModel)]="stock.timePurchased">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn primary-button" (click)="addStocks()">Add</button>
+  <button type="button" class="btn primary-button" (click)="addStock()">Add</button>
   <button type="button" class="btn secondary-button" (click)="dialogRef.close('close')">Cancel</button>
 </div>
 

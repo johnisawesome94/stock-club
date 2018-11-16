@@ -3,38 +3,14 @@
         <div class="card-title medium-text-bold margin-bottom-15">
             Stocks
         </div>
-        <div class="form-group margin-bottom-15">
-            <label for="contribution">Search Stocks</label>
-            <div class="input-group">
-                <input type="text"
-                    class="form-control"
-                    id="new-funds-contribution"
-                    placeholder="Search stocks..."
-                    [(ngModel)]="stockSearch"
-                    [matAutocomplete]="auto"
-                    #stockSearchInput>
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" (click)="searchStocks()">
-                        <i class="fa-search fa"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
         <ul class="list-group">
-            <li *ngFor="let stock of stocks" class=list-group-item (click)="selectedStockId = stock.id" [ngClass]="{'active': selectedStockId === stock.id}">
+            <li *ngFor="let stock of stocks" class=list-group-item (click)="selectedStock = stock.ticker" [ngClass]="{'active': selectedStock === stock.ticker}">
                 <div class="small-text">
-                {{ stock.displayName }} {{ stock.totalValueOwned }}
+                {{ stock.ticker }} {{ stock.numberOfShares }}
                 </div>
             </li>
         </ul>
-        <button type="button" class="btn secondary-button margin-top-15" (click)="openSellStockModal()" [disabled]="!selectedStockId">Sell Stocks</button>
         <button type="button" class="btn primary-button margin-top-15" (click)="openAddStockModal()">Buy Stocks</button>
+        <button *ngIf="selectedStock" type="button" class="btn secondary-button margin-top-15" (click)="openSellStockModal()">Sell Stocks</button>
     </div>
 </div>
-
-<mat-autocomplete #auto="matAutocomplete">
-    <mat-option *ngFor="let stock of stockSearchResults" [value]="stock">
-        {{ stock }}
-    </mat-option>
-</mat-autocomplete>

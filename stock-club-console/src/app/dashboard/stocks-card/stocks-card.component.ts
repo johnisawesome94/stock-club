@@ -13,7 +13,7 @@ import { AddStockModalComponent } from './add-stock-modal/add-stock-modal.compon
 export class StocksCardComponent implements OnInit {
 
   public stocks: Stock[] = [];
-  public selectedStockId: string = '';
+  public selectedStock: string = '';
   public stockSearch: string = '';
   public stockSearchResults: any[] = [];
 
@@ -22,6 +22,10 @@ export class StocksCardComponent implements OnInit {
   constructor(private stocksService: StocksService, private modalService: NgbModal, private dialog: MatDialog) { }
 
   ngOnInit() {
+    this.getStocks();
+  }
+
+  public getStocks(): void {
     this.stocksService.getStocks().subscribe((stockData: Stock[]) => {
       this.stocks = stockData;
     }, error => {
@@ -47,8 +51,7 @@ export class StocksCardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed: ' + result);
       if (result === 'add') {
-        // TODO
-        //this.getStocks();
+        this.getStocks();
       }      
     });
   }

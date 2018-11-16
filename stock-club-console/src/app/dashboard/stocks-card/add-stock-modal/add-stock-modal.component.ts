@@ -11,7 +11,7 @@ import { MatAutocompleteTrigger, MatDialogRef, MAT_DIALOG_DATA } from '@angular/
 })
 export class AddStockModalComponent implements OnInit {
   
-  public stock: UpdateStock = new UpdateStock('', 0, 0, 0);
+  public stock: UpdateStock = new UpdateStock('', 0, 0);
   public stockSearchResults: any[] = [];
   @ViewChild('stockTickerInput', { read: MatAutocompleteTrigger }) autoComplete: MatAutocompleteTrigger;
 

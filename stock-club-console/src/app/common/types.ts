@@ -70,6 +70,5 @@ export class UpdateStock {
     constructor(
         public ticker: string,
         public pricePerShare: number,
-        public numberOfShares: number,
-        public timePurchased: number) {}
+        public numberOfShares: number) {}
 }
