@@ -127,11 +127,24 @@ def postFunds():
 # - send updated stock prices with stocks
 @app.route('/stocks', methods=['GET'])
 def getStocks():
-    stocks = dumps(mongo.db.stocks.find())
+    stockList = []
+    stocks = mongo.db.stocks.find()
     if stocks is None:
         return jsonify([])
     else:
-        return stocks
+        tickerList = []
+        for stock in Stocks:
+            tickerList.append(stock['ticker'])
+        meta, batchStockQuotes = av.get_batch_stock_quotes(symbols=(tickerList))
+        print('hello' + batchStockQuotes)
+        for stock in Stocks:
+            for quote in batchStockQuotes:
+                if stock['ticker'] == quote['1. symbol']:
+                    stock['currentPrice'] = quote['2. price']
+                    stock['totalValue'] = stock['numberOfShares'] * stock['currentValue']
+                    stock['timestamp'] = quote['4. timestamp']
+                    stockList.append(stock)
+        return jsonify(stocks)
 
 @app.route('/stocks/<string:search_string>', methods=['GET'])
 def searchTickers(search_string):
