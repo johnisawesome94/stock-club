@@ -81,6 +81,19 @@
     background-color: $primary-color;
 }
 
+.list-second-line {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.list-second-line-divider {
+    height: 15px;
+    border-right: 1px solid;
+    margin: 0 10px;
+}
+
 mat-dialog-container.mat-dialog-container {
     padding: 0;
 }

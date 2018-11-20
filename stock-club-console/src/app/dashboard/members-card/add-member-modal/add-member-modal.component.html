@@ -1,7 +1,7 @@
 
 <div class="modal-header">
   <div class="modal-title large-text">Add Member</div>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('close')">
+  <button type="button" class="close" aria-label="Close" (click)="dialogRef.dismiss('close')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -33,5 +33,5 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn primary-button" (click)="addMember()">Add</button>
-  <button type="button" class="btn secondary-button" (click)="activeModal.close('close')">Cancel</button>
+  <button type="button" class="btn secondary-button" (click)="dialogRef.close('close')">Cancel</button>
 </div>

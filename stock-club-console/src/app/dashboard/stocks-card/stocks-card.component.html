@@ -4,9 +4,18 @@
     </mat-card-header>
     <mat-card-content>
         <mat-list>
-            <mat-list-item *ngFor="let stock of stocks" (click)="selectedStock = stock" [ngClass]="{'active': selectedStock?.ticker === stock.ticker}">
-                <div class="small-text">
-                    {{ stock.ticker }} {{ stock.numberOfShares }} {{ stock.totalValue | currency }} {{ stock.pricePerShare | currency }}  {{ stock.timestamp * 1000 | date:'medium' }}
+            <mat-list-item *ngFor="let stock of stocks" (click)="selectedStock = stock.ticker" [ngClass]="{'active': selectedStock === stock.ticker}">
+                <div matLine class="small-text">
+                    {{ stock.ticker }}
+                </div>
+                <div matLine class="tiny-text sub-text list-second-line">
+                    Number of Shares: {{ stock.numberOfShares }} 
+                    <div class="list-second-line-divider"></div>
+                    Price Per Share: {{ stock.pricePerShare | currency }}
+                    <div class="list-second-line-divider"></div>
+                    Total Value: {{ stock.totalValue | currency }}
+                    <div class="list-second-line-divider"></div>
+                    Last Updated: {{ stock.timestamp * 1000 | date:'medium' }}
                 </div>
             </mat-list-item>
         </mat-list>

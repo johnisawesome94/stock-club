@@ -16,8 +16,6 @@ export class StocksCardComponent implements OnInit {
   public stockSearch: string = '';
   public stockSearchResults: any[] = [];
 
-  @ViewChild('stockSearchInput', { read: MatAutocompleteTrigger }) autoComplete: MatAutocompleteTrigger;
-
   constructor(private stocksService: StocksService, private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -30,15 +28,6 @@ export class StocksCardComponent implements OnInit {
     }, error => {
       // TODO: handle error case
     });
-  }
-
-  public searchStocks(): void {
-    if (this.stockSearch) {
-      this.stocksService.searchStocks(this.stockSearch).subscribe((stockSearchResults: any) => {
-        this.stockSearchResults = stockSearchResults.map((item) => item['1. symbol']);
-        this.autoComplete.openPanel();
-      });
-    }
   }
 
   public openBuySellStockModal(stock?: Stock): void {

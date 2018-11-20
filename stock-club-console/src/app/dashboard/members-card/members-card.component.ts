@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AddMemberModalComponent } from './add-member-modal/add-member-modal.component';
 import { Member } from 'src/app/common/types';
 import { MembersService } from 'src/app/services/members.service';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'members-card',
@@ -14,7 +14,7 @@ export class MembersCardComponent implements OnInit {
   public members: Member[] = [];
   public selectedMemberId: string = '';
 
-  constructor(private modalService: NgbModal, private memberService: MembersService) { }
+  constructor(private memberService: MembersService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getMembers();
@@ -27,9 +27,13 @@ export class MembersCardComponent implements OnInit {
   }
 
   public openAddMemberModal(): void {
-    const modalRef: NgbModalRef = this.modalService.open(AddMemberModalComponent);
-    modalRef.result.then((result: string) => {
-      console.log('add member modal closed: ' + result);
+    const dialogRef = this.dialog.open(AddMemberModalComponent, {
+      width: '',
+      autoFocus: false,
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe((result: string) => {
       if (result === 'add') {
         this.getMembers();
       }

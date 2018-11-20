@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MembersService } from 'src/app/services/members.service';
 import { Member, NewMember } from 'src/app/common/types';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-add-member-modal',
@@ -12,7 +13,10 @@ export class AddMemberModalComponent implements OnInit {
 
   public newMember: NewMember = new NewMember('', '', '');
 
-  constructor(public activeModal: NgbActiveModal, private membersService: MembersService) { }
+  constructor(public activeModal: NgbActiveModal,
+    private membersService: MembersService,
+    public dialogRef: MatDialogRef<AddMemberModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,) { }
 
   ngOnInit() {}
 
@@ -24,7 +28,7 @@ export class AddMemberModalComponent implements OnInit {
       // TODO: handle adding member error case
       console.log('failed to add member ' + JSON.stringify(this.newMember));
     }, () => {
-      this.activeModal.close('add')
+      this.dialogRef.close('add')
     })
   }
 }

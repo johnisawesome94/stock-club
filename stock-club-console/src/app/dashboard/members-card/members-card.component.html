@@ -15,7 +15,7 @@
         </mat-list>
     </mat-card-content>
     <mat-card-actions [align]="'end'">
-        <button type="button" class="btn secondary-button" (click)="deleteMember()" [disabled]="!selectedMemberId">Delete Member</button>
-        <button type="button" class="btn primary-button" (click)="openAddMemberModal()">Add Member</button>
+        <button mat-button *ngIf="selectedMemberId" class="secondary-button" (click)="deleteMember()">Delete Member</button>
+        <button mat-button class="primary-button" (click)="openAddMemberModal()">Add Member</button>
     </mat-card-actions>
 </mat-card>
