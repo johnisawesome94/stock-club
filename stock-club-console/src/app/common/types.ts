@@ -57,13 +57,11 @@ export class Notification {
 
 export class Stock {
     constructor(
-        public id: string,
-        public displayName: string,
         public ticker: string,
-        public pricePerSharePurchased: number,
-        public numberOfSharesOwned: number,
-        public totalValueOwned: number,
-        public timePurchased: number) {}
+        public pricePerShare: number,
+        public numberOfShares: number,
+        public totalValue: number,
+        public timestamp: number) {}
 }
 
 export class UpdateStock {

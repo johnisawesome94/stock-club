@@ -1,0 +1,56 @@
+<div class="modal-header">
+  <div class="modal-title large-text">Add Stocks</div>
+  <button type="button" class="close" (click)="dialogRef.close('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body display-flex-column">
+    <mat-form-field>
+        <input matInput
+            [required]="!existingStock"
+            type="text"
+            placeholder="Ticker"
+            id="add-stock-ticker"
+            [(ngModel)]="stock.ticker"
+            [matAutocomplete]="auto"
+            #stockTickerInput
+            [disabled]="existingStock">
+        <button *ngIf="!existingStock" mat-button matSuffix (click)="searchStocks()">
+            <i class="fa-search fa"></i>
+        </button>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput
+          required
+          placeholder="Pricer per share"
+          type="text"
+          id="add-stock-price-per-share"
+          [(ngModel)]="stock.pricePerShare"
+          currency
+          (rawChange)="stock.pricePerShare = $event">
+        <span matPrefix>$&nbsp;</span>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput
+        required
+        type="number"
+        placeholder="Number of shares"
+        id="add-stock-number-of-shares"
+        [(ngModel)]="stock.numberOfShares"
+        [errorStateMatcher]="errorStateMatcher"
+        numberOnly>
+        <mat-error>
+            Not enough shares to sell.
+        </mat-error>
+    </mat-form-field>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn primary-button" (click)="updateStock()" [disabled]="confirmDisabled()">{{ confirmButton }}</button>
+  <button type="button" class="btn secondary-button" (click)="dialogRef.close('close')">Cancel</button>
+</div>
+
+<mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let stock of stockSearchResults" [value]="stock">
+        {{ stock }}
+    </mat-option>
+</mat-autocomplete>

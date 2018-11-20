@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StocksService } from 'src/app/services/stocks.service';
 import { Stock } from 'src/app/common/types';
 import { MatAutocompleteTrigger, MatDialog } from '@angular/material';
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddStockModalComponent } from './add-stock-modal/add-stock-modal.component';
+import { BuySellStockModalComponent } from './buy-sell-stock-modal/buy-sell-stock-modal.component';
 
 @Component({
   selector: 'stocks-card',
@@ -13,13 +12,13 @@ import { AddStockModalComponent } from './add-stock-modal/add-stock-modal.compon
 export class StocksCardComponent implements OnInit {
 
   public stocks: Stock[] = [];
-  public selectedStock: string = '';
+  public selectedStock: Stock;
   public stockSearch: string = '';
   public stockSearchResults: any[] = [];
 
   @ViewChild('stockSearchInput', { read: MatAutocompleteTrigger }) autoComplete: MatAutocompleteTrigger;
 
-  constructor(private stocksService: StocksService, private modalService: NgbModal, private dialog: MatDialog) { }
+  constructor(private stocksService: StocksService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getStocks();
@@ -42,14 +41,16 @@ export class StocksCardComponent implements OnInit {
     }
   }
 
-  public openAddStockModal(): void {
-    const dialogRef = this.dialog.open(AddStockModalComponent, {
+  public openBuySellStockModal(stock?: Stock): void {
+    const dialogRef = this.dialog.open(BuySellStockModalComponent, {
       width: '',
-      data: {}
+      autoFocus: false,
+      data: {
+        stock: stock ? stock : null
+      }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed: ' + result);
+    dialogRef.afterClosed().subscribe((result: string) => {
       if (result === 'add') {
         this.getStocks();
       }      

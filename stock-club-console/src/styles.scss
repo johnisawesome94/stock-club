@@ -61,8 +61,8 @@
 .primary-button {
     background-color: $secondary-color;
     color: $white;
-    margin-left: 15px;
-    min-width: 90px;
+    margin: 0 0 0 15px !important;
+    min-width: 90px !important;
 }
 
 .secondary-button {

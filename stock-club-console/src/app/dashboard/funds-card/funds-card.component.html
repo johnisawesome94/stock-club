@@ -6,25 +6,25 @@
         <div class="small-text-bold display-flex-row">
             Total Money:&nbsp;
             <div class="small-text">
-                {{ stockClubFunds.total }}
+                {{ stockClubFunds.total | currency }}
             </div>
         </div>
         <div class="small-text-bold display-flex-row">
             Total Money Available for Trading:&nbsp;
             <div class="small-text">
-                {{ stockClubFunds.available }}
+                {{ stockClubFunds.available | currency }}
             </div>
         </div>
         <div class="small-text-bold display-flex-row">
             Total Money Pending:&nbsp;
             <div class="small-text">
-                {{ stockClubFunds.pending }}
+                {{ stockClubFunds.pending | currency }}
             </div>
         </div>
         <div class="small-text-bold display-flex-row">
             Total Money Used:&nbsp;
             <div class="small-text">
-                {{ stockClubFunds.used }}
+                {{ stockClubFunds.used | currency }}
             </div>
         </div>
     </mat-card-content>
@@ -35,25 +35,25 @@
         <div class="small-text-bold display-flex-row">
             Total Money:&nbsp;
             <div class="small-text">
-                {{ personalFunds.total }}
+                {{ personalFunds.total | currency }}
             </div>
         </div>
         <div class="small-text-bold display-flex-row">
             Total Money Available for Trading:&nbsp;
             <div class="small-text">
-                {{ personalFunds.available }}
+                {{ personalFunds.available | currency }}
             </div>
         </div>
         <div class="small-text-bold display-flex-row">
             Total Money Pending:&nbsp;
             <div class="small-text">
-                {{ personalFunds.pending }}
+                {{ personalFunds.pending | currency }}
             </div>
         </div>
         <div class="small-text-bold display-flex-row">
             Total Money Used:&nbsp;
             <div class="small-text">
-                {{ personalFunds.used }}
+                {{ personalFunds.used | currency }}
             </div>
         </div>
     </mat-card-content>

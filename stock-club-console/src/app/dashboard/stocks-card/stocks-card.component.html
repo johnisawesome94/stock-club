@@ -4,15 +4,15 @@
     </mat-card-header>
     <mat-card-content>
         <mat-list>
-            <mat-list-item *ngFor="let stock of stocks" (click)="selectedStock = stock.ticker" [ngClass]="{'active': selectedStock === stock.ticker}">
+            <mat-list-item *ngFor="let stock of stocks" (click)="selectedStock = stock" [ngClass]="{'active': selectedStock?.ticker === stock.ticker}">
                 <div class="small-text">
-                    {{ stock.ticker }} {{ stock.numberOfShares }}
+                    {{ stock.ticker }} {{ stock.numberOfShares }} {{ stock.totalValue | currency }} {{ stock.pricePerShare | currency }}  {{ stock.timestamp * 1000 | date:'medium' }}
                 </div>
             </mat-list-item>
         </mat-list>
     </mat-card-content>
     <mat-card-actions [align]="'end'">
-        <button type="button" class="btn primary-button" (click)="openAddStockModal()">Buy Stocks</button>
-        <button *ngIf="selectedStock" type="button" class="btn secondary-button" (click)="openSellStockModal()">Sell Stocks</button>    
+        <button *ngIf="selectedStock" mat-button class="secondary-button" (click)="openBuySellStockModal(selectedStock)">Sell Stocks</button>    
+        <button mat-button class="primary-button" (click)="openBuySellStockModal()">Buy Stocks</button>
     </mat-card-actions>
 </mat-card>

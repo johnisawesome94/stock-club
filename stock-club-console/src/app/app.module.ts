@@ -18,7 +18,9 @@ import { InitPageComponent } from './authentication/init-page/init-page.componen
 import { RegisterComponent } from './authentication/init-page/register/register.component';
 import { StocksCardComponent } from './dashboard/stocks-card/stocks-card.component';
 import { MatAutocompleteModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule, MatInputModule, MatDialogModule, MatButtonModule, MatCardModule, MatListModule } from '@angular/material';
-import { AddStockModalComponent } from './dashboard/stocks-card/add-stock-modal/add-stock-modal.component';
+import { BuySellStockModalComponent } from './dashboard/stocks-card/buy-sell-stock-modal/buy-sell-stock-modal.component';
+import { CurrencyDirective } from './common/directives/currency.directive';
+import { NumberOnlyDirective } from './common/directives/number-only.directive';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { AddStockModalComponent } from './dashboard/stocks-card/add-stock-modal/
     InitPageComponent,
     RegisterComponent,
     StocksCardComponent,
-    AddStockModalComponent,
+    BuySellStockModalComponent,
+    CurrencyDirective,
+    NumberOnlyDirective
   ],
   imports: [
     BrowserModule,
@@ -58,7 +62,7 @@ import { AddStockModalComponent } from './dashboard/stocks-card/add-stock-modal/
   entryComponents: [
     AddMemberModalComponent,
     AddFundsModalComponent,
-    AddStockModalComponent
+    BuySellStockModalComponent
   ],
   bootstrap: [AppComponent]
 })

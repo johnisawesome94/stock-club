@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddStockModalComponent } from './add-stock-modal.component';
+import { BuySellStockModalComponent } from './buy-sell-stock-modal.component';
 
 describe('AddStockModalComponent', () => {
-  let component: AddStockModalComponent;
-  let fixture: ComponentFixture<AddStockModalComponent>;
+  let component: BuySellStockModalComponent;
+  let fixture: ComponentFixture<BuySellStockModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddStockModalComponent ]
+      declarations: [ BuySellStockModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddStockModalComponent);
+    fixture = TestBed.createComponent(BuySellStockModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
