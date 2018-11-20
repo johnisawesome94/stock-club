@@ -6,9 +6,10 @@ from bson.json_util import dumps
 from uuid import uuid4
 from alpha_vantage.timeseries import TimeSeries
 import jwt
-import datetime
+from datetime import datetime
 import bcrypt
-
+from pytz import timezone
+import pytz
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://stock-club:stock-club1@ds155213.mlab.com:55213/heroku_n7zk6r5p"
@@ -122,9 +123,6 @@ def postFunds():
 ##################
 ## STOCKS API'S ##
 ##################
-
-# TODO:
-# - send updated stock prices with stocks
 @app.route('/stocks', methods=['GET'])
 def getStocks():
     stockList = []
@@ -136,13 +134,16 @@ def getStocks():
         for stock in Stocks:
             tickerList.append(stock['ticker'])
         meta, batchStockQuotes = av.get_batch_stock_quotes(symbols=(tickerList))
+        tz = timezone(meta['3. Time Zone'])
         print('hello' + batchStockQuotes)
         for stock in Stocks:
             for quote in batchStockQuotes:
                 if stock['ticker'] == quote['1. symbol']:
                     stock['currentPrice'] = quote['2. price']
                     stock['totalValue'] = stock['numberOfShares'] * stock['currentValue']
-                    stock['timestamp'] = quote['4. timestamp']
+                    date = datetime.strptime(quote['4. timestamp'], '%Y-%m-%d %H:%M:%S')
+                    date_utc = tz.localize(datetime_object).total_seconds()
+                    stock['timestamp'] = date_utc
                     stockList.append(stock)
         return jsonify(stocks)
 
